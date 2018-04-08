@@ -1,8 +1,6 @@
 package com.netcracker.devschool.dev4.ConsoleClient;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 
 import org.java_websocket.client.WebSocketClient;
@@ -48,7 +46,7 @@ public class ConsoleClientEndPoint extends WebSocketClient {
         System.err.println("an error occurred:" + ex);
     }
 
-    public static void main(String[] args) throws URISyntaxException {
+    public static void main(String[] args){
         WebSocketClient client = consoleClientUtil.registerClient();
         consoleClientUtil.messageSending(client);
     }

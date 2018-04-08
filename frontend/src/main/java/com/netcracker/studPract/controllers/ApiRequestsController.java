@@ -1,5 +1,6 @@
 package com.netcracker.studPract.controllers;
 
+import com.netcracker.devschool.dev4.ConsoleClient.ConsoleClientEndPoint;
 import com.netcracker.studPract.clientWeb.ApiServiceConverters.AgentsConverter;
 import com.netcracker.studPract.clientWeb.ApiServiceConverters.ClientsConverter;
 import com.netcracker.studPract.clientWeb.ApiUtils.AgentUtils;
@@ -9,11 +10,13 @@ import com.netcracker.studPract.clientWeb.ChatUserUtils.UserRegistrator;
 import com.netcracker.studPract.clientWeb.UserApiModel.AgentViewModel;
 import com.netcracker.studPract.clientWeb.UserApiModel.ChatViewModel;
 import com.netcracker.studPract.clientWeb.UserApiModel.ClientViewModel;
+import org.java_websocket.client.WebSocketClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.*;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +39,7 @@ public class ApiRequestsController {
 
     @Autowired
     OpenedChatUtils openedChatUtils;
+
 
     private UserRegistrator userRegistrator = UserRegistrator.getInstance();
 
@@ -87,8 +91,8 @@ public class ApiRequestsController {
     @ResponseBody
     public String registerAgent(@RequestParam(value = "name", required = false) String name) throws EncodeException, IOException, URISyntaxException {
 
-      /*  WebSocket ws = new WebSocket("ws://" +"localhost/webagent/" + "/chat/" + name + "/");
-        userRegistrator.onOpenUserRegister(,name,"webagent");*/
+        WebSocketClient agent = new ConsoleClientEndPoint(new URI("ws://localhost:8080/" + "webagent" + "/chat/" + name + "/"));
+        agent.connect();
         return "success";
     }
 
@@ -104,5 +108,28 @@ public class ApiRequestsController {
         return openedChatUtils.getChatById(userRegistrator.getClients(), userRegistrator.getAgents(), id);
     }
 
+    @RequestMapping(value = "/registerClient", method = RequestMethod.POST)
+    @ResponseBody
+    public String registerClient(@RequestParam(value = "name", required = false) String name) throws EncodeException, IOException, URISyntaxException {
+
+        WebSocketClient client = new ConsoleClientEndPoint(new URI("ws://localhost:8080/" + "client" + "/chat/" + name + "/"));
+        client.connect();
+        return "success";
+    }
+
+    @RequestMapping(value = "/client/{id}/sendMessage", method = RequestMethod.POST)
+    @ResponseBody
+    public String sendClientMessage(@PathVariable String id, @RequestParam(value = "message", required = false) String message) throws IOException, EncodeException {
+        clientUtils.sendMessageToAgent(userRegistrator.getClients(),userRegistrator.getAgents(), id, message);
+        return "success";
+    }
+
+    @RequestMapping(value = "/agent/{id}/sendMessage", method = RequestMethod.POST)
+    @ResponseBody
+    public String sendAgentMessage(@PathVariable String id, @RequestParam(value = "message", required = false) String message,
+                                   @RequestParam(value = "idClient", required = false) String idClient) throws IOException, EncodeException {
+        agentUtils.sendMessageToClient(userRegistrator.getClients(),userRegistrator.getAgents(), id, message,idClient);
+        return "success";
+    }
 
 }
