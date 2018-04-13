@@ -1,3 +1,4 @@
+<%@ taglib prefix="visibility" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 
@@ -38,13 +39,14 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">client</h1>
+                    <h1 class="page-header">${name}</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <div class="row">
                 <div class="col-lg-3">
-                    <input type="text" class="form-control" placeholder="Username" id="username">
+                    <input type="text" class="form-control" id="username" style="visibility: hidden"
+                           value=${name} name="username">
                 </div>
                 <div class="col-lg-3">
                 </div>
@@ -52,7 +54,8 @@
             </div>
             <div class="row" style="padding-top: 20px">
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-success" id="connectBtn" onclick="connectClient();">Connect</button>
+                    <button type="button" class="btn btn-success" id="connectBtn" onclick="connectClient();">Connect
+                    </button>
                 </div>
                 <div class="col-lg-3">
                     <button type="button" class="btn btn-danger" onclick="leave()">leave</button>

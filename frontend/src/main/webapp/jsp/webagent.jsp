@@ -38,13 +38,15 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">It is my chat agent</h1>
+                    <h1 class="page-header">${name}</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <div class="row">
                 <div class="col-lg-3">
-                    <input type="text" class="form-control" placeholder="Username" id="username">
+                    <input type="text" class="form-control" placeholder="Username" id="username"
+                           style="visibility: hidden"
+                           value=${name}>
                 </div>
                 <div class="col-lg-3">
                     <select class="form-control" id="slots">
@@ -60,7 +62,8 @@
 
             <div class="row" style="padding-top: 20px">
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-success" id="connectBtn" onclick="connectAgent();">Connect</button>
+                    <button type="button" class="btn btn-success" id="connectBtn" onclick="connectAgent();">Connect
+                    </button>
                 </div>
                 <div class="row" style="padding-top: 20px">
                     <div class="panel-body">

@@ -13,7 +13,6 @@ function connectAgent() {
         sendSlots();
     }, millisecondsToWait);
     alert("connected to the system");
-    document.getElementById("username").disabled = true;
     document.getElementById("connectBtn").disabled = true;
     usersMap.set(username, "");
     ws.onmessage = function (event) {
@@ -120,7 +119,6 @@ function connectClient() {
     var host = document.location.host;
     var pathname = document.location.pathname;
     ws = new WebSocket("ws://" + host + pathname + "/chat/" + username + "/");
-    document.getElementById("username").disabled = true;
     document.getElementById("connectBtn").disabled = true;
     ws.onmessage = function (event) {
         var log = document.getElementById("log");

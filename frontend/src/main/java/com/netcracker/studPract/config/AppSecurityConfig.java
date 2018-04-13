@@ -9,9 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-
 import javax.sql.DataSource;
-
 
 
 @Configuration
@@ -38,10 +36,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/head/**").access("hasRole('ROLE_HEAD')")
-                .antMatchers("/profile/**").access("hasRole('ROLE_STUDENT')")
-                .antMatchers("/profile/**").access("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMIN','ROLE_HEAD')")
+                .antMatchers("/webagent/**").access("hasRole('ROLE_AGENT')")
+                .antMatchers("/client/**").access("hasRole('ROLE_CLIENT')")
                 .and()
                 .headers()
                 .frameOptions().sameOrigin().httpStrictTransportSecurity().disable().and()

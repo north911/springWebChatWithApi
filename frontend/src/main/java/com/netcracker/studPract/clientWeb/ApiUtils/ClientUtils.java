@@ -41,8 +41,18 @@ public class ClientUtils {
         Message messageJ = new Message();
         messageJ.setFrom(clientHashMap.get(id).getName());
         messageJ.setContent(message);
-        chatUserActionListener.onMessageHandle(clientHashMap.get(id).getSession(),messageJ,agentHashMap,clientHashMap);
+        chatUserActionListener.onMessageHandle(clientHashMap.get(id).getSession(), messageJ, agentHashMap, clientHashMap);
         return "sucsess";
 
+    }
+
+    public String disconnectClient(String id, HashMap<String, Client> clientHashMap, HashMap<String, Agent> agentHashMap) throws IOException, EncodeException {
+
+        ChatUserActionListener chatUserActionListener = new ChatUserActionListener(new ChatUtils(agentHashMap, clientHashMap));
+        Message messageJ = new Message();
+        messageJ.setFrom(clientHashMap.get(id).getName());
+        messageJ.setContent("/leave");
+        chatUserActionListener.onMessageHandle(clientHashMap.get(id).getSession(),messageJ,agentHashMap,clientHashMap);
+        return "success";
     }
 }

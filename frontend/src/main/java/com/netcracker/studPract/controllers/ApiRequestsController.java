@@ -81,7 +81,7 @@ public class ApiRequestsController {
         return clientsConverter.convertClientsToViewModel(clientUtils.findFreeClients(userRegistrator.getClients()));
     }
 
-    @RequestMapping(value = "/client/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/clientProfile/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ClientViewModel getClient(@PathVariable String id) {
         return clientUtils.findClientByIdSession(id, userRegistrator.getClients());
@@ -120,7 +120,7 @@ public class ApiRequestsController {
     @RequestMapping(value = "/client/{id}/sendMessage", method = RequestMethod.POST)
     @ResponseBody
     public String sendClientMessage(@PathVariable String id, @RequestParam(value = "message", required = false) String message) throws IOException, EncodeException {
-        clientUtils.sendMessageToAgent(userRegistrator.getClients(),userRegistrator.getAgents(), id, message);
+        clientUtils.sendMessageToAgent(userRegistrator.getClients(), userRegistrator.getAgents(), id, message);
         return "success";
     }
 
@@ -128,7 +128,15 @@ public class ApiRequestsController {
     @ResponseBody
     public String sendAgentMessage(@PathVariable String id, @RequestParam(value = "message", required = false) String message,
                                    @RequestParam(value = "idClient", required = false) String idClient) throws IOException, EncodeException {
-        agentUtils.sendMessageToClient(userRegistrator.getClients(),userRegistrator.getAgents(), id, message,idClient);
+        agentUtils.sendMessageToClient(userRegistrator.getClients(), userRegistrator.getAgents(), id, message, idClient);
+        return "success";
+    }
+
+    @RequestMapping(value = "/client/{id}/leave", method = RequestMethod.POST)
+    @ResponseBody
+    public String clientLeave(@PathVariable String id) throws IOException, EncodeException {
+
+        clientUtils.disconnectClient(id, userRegistrator.getClients(), userRegistrator.getAgents());
         return "success";
     }
 
